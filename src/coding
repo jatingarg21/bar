@@ -1,0 +1,239 @@
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import Form from "./Form";
+import classes from "./BlogCard.module.css";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showTitle: false,
+      cardData: [],
+      email: "",
+      city: "",
+      username: "",
+      state: "",
+      display: false,
+      inputNames: ["name", "email", "city", "stateName"],
+      userData :[],
+      cartData: { cartItems: [] },
+    };
+
+    this.myChangeHandler = this.myChangeHandler.bind(this);
+    this.mySubmitHandler = this.mySubmitHandler.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.name = React.createRef();
+    this.email = React.createRef();
+    this.city = React.createRef();
+    this.stateName = React.createRef();
+  }
+
+  myChangeHandler = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    this.setState({ [name]: value });
+  };
+
+  mySubmitHandler = (event) => {
+    event.preventDefault();
+    // console.log('this.input.current', this.name.current.value);
+    let userData = this.state.userData;
+    var newUserObj = [];
+      Object.values(this.state.inputNames).map((ele) => {
+        //  console.log('Ele', ele);/
+         newUserObj[ele] = this[ele].current.value;
+      })
+    console.log('User Obj', newUserObj);
+    this.setState({
+      userData: [...this.state.userData, newUserObj]
+    })
+  };
+
+  handleLogin = () => {
+    //event.preventDefault();
+    console.log("Email: " + this.state.email);
+    console.log("name: " + this.state.name);
+  };
+
+  render() {
+    let header = "";
+    console.log('USer Data', this.state.userData);
+    
+
+    return (
+      <div>
+      <Form onSubmit={this.mySubmitHandler} >
+      
+      <section>
+            <div>
+              <p></p>
+            </div>
+            {this.state.userData.map((obj) => {
+              return (
+                <div className="col-lg-4">
+                  <div className={`mt-2 ${classes.card}`}>
+                    <div className="text-center">
+                      {this.state.inputNames.map((key) => {
+                        return (
+                          <p>{obj[key]}</p>
+                          )
+                        })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            </section>
+        </Form>
+      </div>
+    );
+  }
+}
+
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { Component } from "react";
+import logo from './logo.svg';
+import BlogItem from "./BlogCard";
+import classes from "./BlogCard.module.css";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+class Form extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showTitle: false,
+      cardData: [],
+      email: "",
+      city: "",
+      username: "",
+      state: "",
+      display: false,
+      inputNames: ["name", "email", "city", "stateName"],
+      userData :[],
+      cartData: { cartItems: [] },
+    };
+
+    this.myChangeHandler = this.myChangeHandler.bind(this);
+    // this.mySubmitHandler = this.mySubmitHandler.bind(this);
+    // this.handleLogin = this.handleLogin.bind(this);
+    this.name = React.createRef();
+    this.email = React.createRef();
+    this.city = React.createRef();
+    this.stateName = React.createRef();
+  }
+
+  myChangeHandler = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    this.setState({ [name]: value });
+  };
+
+  
+  render() {
+    return (
+      <div className="container">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputname">Name</label>
+              <input
+                type="name"
+                class="form-control"
+                id="inputname"
+                name="username"
+                placeholder="name"
+                onChange={this.myChangeHandler}
+                ref={this.name}
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="inputEmail4"
+                name="email"
+                placeholder="Email"
+                onChange={this.myChangeHandler}
+                ref={this.email}
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">City</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputCity"
+                name="city"
+                onChange={this.myChangeHandler}
+                ref={this.city}
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputState">State</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputState"
+                name="state"
+                onChange={this.myChangeHandler}
+                ref={this.stateName}
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Submit
+          </button>
+          </form>
+          </div>
+  
+    );
+  }
+}
+
+export default Form;
